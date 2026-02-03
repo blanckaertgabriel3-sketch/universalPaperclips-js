@@ -35,7 +35,7 @@ class Game {
 		this.publicDemand = 75;
 		this.spanPubicDemand.innerHTML = this.publicDemand;
 		//marketing in business area
-		this.marketingLevel = 1;
+		this.marketingLevel = 0;
 		this.spanMarketingLevel.innerHTML = this.marketingLevel;
 		//put the money to 0 for the start; 2 significants figures
 		this.availableFunds = 300.00;
@@ -48,6 +48,7 @@ class Game {
 		//add a listener for add paperclip
 		this.buttonMakePaperclip.addEventListener("click", () => {
 			this.addPaperclip()
+			this.canSoldInventory()
 		});
 		this.buttonMakePaperclip.addEventListener("click", () => { 
 			this.addUnsoldInventory()
@@ -101,10 +102,6 @@ class Game {
 		this.publicDemand = 100 - this.percentage * 100;
 		this.spanPubicDemand.innerHTML = this.publicDemand.toFixed(0);
 	}
-	//reduce the unsold Inventory only if we have minimum 1 paperclip
-	soldInventory() {
-		console.log(this.publicDemand);
-	}
 	//if can pay and click +1 lvl
 	addMarketingLevel() {
 		//compare the availableFunds with the price of marketing level
@@ -136,9 +133,23 @@ class Game {
 		}
 		return this.enoughtMoney;
 	}
+	getRandom(max) {
+		return Math.floor(Math.random() * max);
+	}
 
-
-
+	canSoldInventory() {
+		//can redude paperclip in inventory only if: More than 1 paperclip + the random is higher than the publicDemand / 2
+		if(this.unsoldInventory >= 1) {
+			let theRandomNumber = this.getRandom(this.publicDemand + 1);
+			if(theRandomNumber > this.publicDemand / 2){
+				this.unsoldInventory = this.unsoldInventory - 1;
+				this.spanUnsoldInventory.innerHTML = this.unsoldInventory;
+			}
+		}
+	}
+	
+	
+	
 }
 //instanciation of the class Game
 let game1 = new Game();
