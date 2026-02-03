@@ -87,6 +87,7 @@ class Game {
 	}
 
 
+
 }
 //instanciation of the class Game
-let game1 = new Game;
+let game1 = new Game();
