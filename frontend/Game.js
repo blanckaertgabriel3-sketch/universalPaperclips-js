@@ -140,8 +140,8 @@ class Game {
 	canSoldInventory() {
 		//can redude paperclip in inventory only if: More than 1 paperclip + the random is higher than the publicDemand / 2
 		if(this.unsoldInventory >= 1) {
-			let theRandomNumber = this.getRandom(this.publicDemand + 1);
-			if(theRandomNumber > this.publicDemand / 2){
+			let theRandomNumber = this.getRandom(100 + 1);
+			if(theRandomNumber < this.publicDemand){
 				this.unsoldInventory = this.unsoldInventory - 1;
 				this.spanUnsoldInventory.innerHTML = this.unsoldInventory;
 			}
