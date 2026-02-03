@@ -1,9 +1,10 @@
 class Game {
 	constructor() {
+		//button make paperclip
 		this.buttonMakePaperclip = document.getElementById("makepaperclip");
-		//the visual area
+		//the number of paperclips
 		this.spanPaperclipNumber = document.getElementById("spanPaperclipNumber");
-		
+		//the stock of unsold paperclips
 		this.spanUnsoldInventory = document.getElementById("unsoldInventory");
 		//get elements for Price per clip
 		this.buttonLower = document.getElementById("buttonLower");
@@ -11,8 +12,16 @@ class Game {
 		this.spanPricePerClip = document.getElementById("spanPricePerClip");
 		//get the public demand span
 		this.spanPubicDemand = document.getElementById("spanPubicDemand");
-		
+		//get the marketing button and span
+		this.buttonMarketing = document.getElementById("buttonMarketing");
+		this.spanMarketingLevel = document.getElementById("spanMarketingLevel");
+		this.costMarketingLevel = document.getElementById("costMarketingLevel");
+		//get the available funds
+		this.spanAvailableFunds = document.getElementById("spanAvailableFunds");
+
+		//put the listeners
 		this.initInput();
+
 		//start with 0 paperclips
 		this.paperclipNumber = 0;
 		this.spanPaperclipNumber.innerHTML = this.paperclipNumber;
@@ -25,6 +34,14 @@ class Game {
 		//public demand
 		this.publicDemand = 75;
 		this.spanPubicDemand.innerHTML = this.publicDemand;
+		//marketing in business area
+		this.marketingLevel = 1;
+		this.spanMarketingLevel.innerHTML = this.marketingLevel;
+		//put the money to 0 for the start; 2 significants figures
+		this.availableFunds = 300.00;
+		this.spanAvailableFunds.innerHTML = this.availableFunds.toFixed(3);
+
+		this.enoughtMoney = false;
 
 	}
 	initInput(){
@@ -48,6 +65,9 @@ class Game {
 		});
 		this.buttonRaise.addEventListener("click", () => { 
 			this.getPublicDemand()
+		});
+		this.buttonMarketing.addEventListener("click", () => { 
+			this.addMarketingLevel()
 		});
 	}
 	//indrement paperclip number
@@ -84,6 +104,37 @@ class Game {
 	//reduce the unsold Inventory only if we have minimum 1 paperclip
 	soldInventory() {
 		console.log(this.publicDemand);
+	}
+	//if can pay and click +1 lvl
+	addMarketingLevel() {
+		//compare the availableFunds with the price of marketing level
+		if(this.canPay(this.availableFunds, this.costMarketingLevel)) {
+			//incremente the Marketing level if player can pay
+			this.marketingLevel ++;
+			//wrote the new level
+			this.spanMarketingLevel.innerHTML = this.marketingLevel;
+			//deduction of the marketing in the available funds
+			this.availableFunds = this.availableFunds - this.costMarketingLevel.innerHTML;
+			//wrote the new avalableFund
+			this.spanAvailableFunds.innerHTML = this.availableFunds.toFixed(3);
+			//increatse the costMarketingLevel
+			this.increaseCostMarketingLevel = Number(this.costMarketingLevel.innerHTML) + 50.00;
+			this.costMarketingLevel.innerHTML = this.increaseCostMarketingLevel;
+		}else {
+			console.log("Not enought money");
+		}
+	}
+	//compare for every type of monney if the player as enought money for a feature
+	// (Player money, money needed to pay the feature)
+	canPay(moneyReference, moneyNeeded) {
+		if(moneyReference > moneyNeeded.innerHTML){
+			//player can pay
+			this.enoughtMoney = true;
+		}else {
+			//player can't pay
+			this.enoughtMoney = false;
+		}
+		return this.enoughtMoney;
 	}
 
 
