@@ -19,8 +19,9 @@ class Game {
 		//get the available funds
 		this.spanAvailableFunds = document.getElementById("spanAvailableFunds");
 
-		//put the listeners
+		//put the listeners and set the intervals
 		this.initInput();
+		
 
 		//start with 0 paperclips
 		this.paperclipNumber = 0;
@@ -42,13 +43,11 @@ class Game {
 		this.spanAvailableFunds.innerHTML = this.availableFunds.toFixed(3);
 
 		this.enoughtMoney = false;
-
 	}
 	initInput(){
 		//add a listener for add paperclip
 		this.buttonMakePaperclip.addEventListener("click", () => {
 			this.addPaperclip()
-			this.canSoldInventory()
 		});
 		this.buttonMakePaperclip.addEventListener("click", () => { 
 			this.addUnsoldInventory()
@@ -70,6 +69,8 @@ class Game {
 		this.buttonMarketing.addEventListener("click", () => { 
 			this.addMarketingLevel()
 		});
+		//repeat a code with an interval; later can discrease delay to sell more faster
+		setInterval(this.canSoldInventory, 1000);
 	}
 	//indrement paperclip number
 	addPaperclip() {
@@ -138,18 +139,27 @@ class Game {
 	}
 
 	canSoldInventory() {
+		let theRandomNumber;
 		//can redude paperclip in inventory only if: More than 1 paperclip + the random is higher than the publicDemand / 2
-		if(this.unsoldInventory >= 1) {
-			let theRandomNumber = this.getRandom(100 + 1);
-			if(theRandomNumber < this.publicDemand){
-				this.unsoldInventory = this.unsoldInventory - 1;
-				this.spanUnsoldInventory.innerHTML = this.unsoldInventory;
+		if(this.unsoldInventory.innerHTML > 0) {
+			theRandomNumber = game1.getRandom(101);
+			//if the random number < public demand = -1paperclip in inventory and price per clip in available fund 
+			if(theRandomNumber <= game1.publicDemand){
+				game1.unsoldInventory = game1.unsoldInventory - 1;
+				game1.spanUnsoldInventory.innerHTML = game1.unsoldInventory;
+				//add the price per clip in available funds
+				game1.spanAvailableFunds.innerHTML =  Number(game1.spanAvailableFunds.innerHTML) + Number(game1.spanPricePerClip.innerHTML);
+			}else {
+				console.log("can't be sold", theRandomNumber, game1.publicDemand)
 			}
 		}
 	}
 	
 	
 	
+	
+	
 }
 //instanciation of the class Game
 let game1 = new Game();
+
