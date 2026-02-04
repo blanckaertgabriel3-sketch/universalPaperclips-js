@@ -70,7 +70,7 @@ class Game {
 			this.addMarketingLevel()
 		});
 		//repeat a code with an interval; later can discrease delay to sell more faster
-		setInterval(this.canSoldInventory, 1000);
+		setInterval(this.canSoldInventory, 500);
 	}
 	//indrement paperclip number
 	addPaperclip() {
@@ -148,9 +148,8 @@ class Game {
 				game1.unsoldInventory = game1.unsoldInventory - 1;
 				game1.spanUnsoldInventory.innerHTML = game1.unsoldInventory;
 				//add the price per clip in available funds
-				game1.spanAvailableFunds.innerHTML =  Number(game1.spanAvailableFunds.innerHTML) + Number(game1.spanPricePerClip.innerHTML);
-			}else {
-				console.log("can't be sold", theRandomNumber, game1.publicDemand)
+				let moneyToAdd =  Number(game1.spanAvailableFunds.innerHTML) + Number(game1.spanPricePerClip.innerHTML);
+				game1.spanAvailableFunds.innerHTML = moneyToAdd.toFixed(3);
 			}
 		}
 	}
