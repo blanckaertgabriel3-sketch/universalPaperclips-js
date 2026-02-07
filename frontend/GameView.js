@@ -21,6 +21,12 @@ class GameView {
 		this.spanAvailableFunds = document.getElementById("spanAvailableFunds");		
 	}
 	updateView() {
-		this.spanPaperclipNumber.innerHTML = gameModel.paperclipNumber;
+		this.spanPaperclipNumber.innerHTML = gameModel.paperclipNumber.toFixed(0);
+		this.spanUnsoldInventory.innerHTML = gameModel.unsoldInventory.toFixed(0);
+		this.spanPricePerClip.innerHTML = gameModel.pricePerClip.toFixed(2);
+		this.spanPubicDemand.innerHTML = gameModel.publicDemand.toFixed(0);
+		this.costMarketingLevel.innerHTML = gameModel.costMarketingLevel.toFixed(0);
+		this.spanMarketingLevel.innerHTML = gameModel.marketingLevel.toFixed(0);
+		this.spanAvailableFunds.innerHTML = gameModel.availableFunds.toFixed(2);
 	}
 }

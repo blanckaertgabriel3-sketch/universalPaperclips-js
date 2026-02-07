@@ -6,16 +6,28 @@ class GameController {
 	}
 	//add a listener for add paperclip
 	initInput() {
-		console.log("span", gameView.spanPaperclipNumber);
-		console.log("button", gameView.buttonMakePaperclip);
 		gameView.buttonMakePaperclip.addEventListener("click", () => {
-			gameModel.addPaperclip()
-			gameView.updateView();
+			gameModel.addPaperclip();
+			gameModel.addUnsoldInventory();
 		});
+		gameView.buttonLower.addEventListener("click", () => {
+			gameModel.lowerPricePerClip();
+			gameModel.getPublicDemand();
+		});
+		gameView.buttonRaise.addEventListener("click", () => {
+			gameModel.raisePricePerClip();
+			gameModel.getPublicDemand();
+		});
+		gameView.buttonMarketing.addEventListener("click", () => {
+			gameModel.addMarketingLevel();
+		});
+		//refresh the player view with interval
+		setInterval(gameView.updateView.bind(gameView), 100);
+		setInterval(gameModel.canSoldInventory.bind(gameModel), gameModel.speedSoldPaperclips);
 	}
 }
 
 
-let gameView = new GameView();
 let gameModel = new GameModel();
+let gameView = new GameView();
 let gameController = new GameController();
